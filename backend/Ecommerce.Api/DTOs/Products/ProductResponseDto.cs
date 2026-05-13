@@ -7,4 +7,4 @@ public sealed record ProductResponseDto(
     decimal Price,
     string FrontImageUrl,
     string? BackImageUrl,
-    int StockQuantity);
+    IReadOnlyList<ProductSizeStockResponseDto> Sizes);

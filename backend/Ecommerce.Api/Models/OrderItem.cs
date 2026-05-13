@@ -10,6 +10,8 @@ public class OrderItem
 
     public required string ProductName { get; set; }
 
+    public ProductSize Size { get; set; }
+
     public decimal UnitPrice { get; set; }
 
     public int Quantity { get; set; }
