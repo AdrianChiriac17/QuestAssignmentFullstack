@@ -75,6 +75,15 @@
   transform: translateY(-1px);
 }
 
+.nav-button-danger {
+  color: #991b1b;
+}
+
+.nav-button-danger:hover {
+  background-color: #fef2f2;
+  color: #7f1d1d;
+}
+
 .cart-badge {
   margin-left: 0.25rem;
   border-radius: 9999px;
