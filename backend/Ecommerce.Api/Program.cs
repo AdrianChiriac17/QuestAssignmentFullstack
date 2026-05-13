@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Ecommerce.Api.Data;
 using Ecommerce.Api.Extensions;
 using Scalar.AspNetCore;
 
@@ -30,10 +31,12 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseCors("AllowFrontend"); 
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    await SeedData.InitializeAsync(app);
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
