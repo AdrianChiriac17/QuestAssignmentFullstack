@@ -1,0 +1,78 @@
+<section class="details-page">
+  @if (isLoading()) {
+    <div class="state-panel">
+      <p>Loading shirt...</p>
+    </div>
+  } @else if (errorMessage(); as message) {
+    <div class="state-panel state-panel-error">
+      <p>{{ message }}</p>
+      <a routerLink="/products">Back to products</a>
+    </div>
+  } @else if (hasLoaded() && product() === undefined) {
+    <div class="state-panel">
+      <p>This shirt could not be found.</p>
+      <a routerLink="/products">Back to products</a>
+    </div>
+  } @else if (product(); as selectedProduct) {
+    <a class="back-link" routerLink="/products">Back to products</a>
+
+    <div class="details-layout">
+      <div class="image-gallery">
+        <img [src]="frontImageUrl()" [alt]="selectedProduct.name" />
+        @if (backImageUrl()) {
+          <img [src]="backImageUrl()" [alt]="selectedProduct.name + ' back'" />
+        }
+      </div>
+
+      <div class="details-panel">
+        <p class="section-kicker">Shirt details</p>
+        <h1>{{ selectedProduct.name }}</h1>
+        <p class="price">{{ selectedProduct.price | currency }}</p>
+        <p class="description">{{ selectedProduct.description }}</p>
+
+        <div class="stock-list" aria-label="Size stock">
+          @for (size of productSizes; track size) {
+            <div class="stock-row" [class.stock-row-empty]="getStockQuantity(size) === 0">
+              <span>{{ size }}</span>
+              <strong>{{ getStockQuantity(size) }}</strong>
+            </div>
+          }
+        </div>
+
+        <div class="purchase-panel">
+          <label class="field">
+            <span>Size</span>
+            <select [ngModel]="selectedSize()" (ngModelChange)="selectSize($event)">
+              @for (size of productSizes; track size) {
+                <option [ngValue]="size">
+                  {{ size }} - {{ getStockQuantity(size) }} available
+                </option>
+              }
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Quantity</span>
+            <select
+              [ngModel]="quantity()"
+              (ngModelChange)="updateQuantity($event)"
+              [disabled]="maxQuantity() === 0"
+            >
+              @if (maxQuantity() === 0) {
+                <option [ngValue]="0">0</option>
+              } @else {
+                @for (option of quantityOptions(); track option) {
+                  <option [ngValue]="option">{{ option }}</option>
+                }
+              }
+            </select>
+          </label>
+        </div>
+
+        <button class="primary-button" type="button" [disabled]="!canAddToCart()" (click)="addToCart()">
+          Add to cart
+        </button>
+      </div>
+    </div>
+  }
+</section>
