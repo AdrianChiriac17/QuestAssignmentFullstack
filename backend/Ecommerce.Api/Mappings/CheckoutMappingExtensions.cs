@@ -1,4 +1,5 @@
 using Ecommerce.Api.DTOs.Checkout;
+using Ecommerce.Api.DTOs.Errors;
 using Ecommerce.Api.Models;
 
 namespace Ecommerce.Api.Mappings;

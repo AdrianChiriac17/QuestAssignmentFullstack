@@ -1,4 +1,5 @@
 using Ecommerce.Api.DTOs.Auth;
+using Ecommerce.Api.DTOs.Errors;
 using Ecommerce.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     [ProducesResponseType(typeof(UserResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(typeof(ApiErrorResponseDto), StatusCodes.Status409Conflict)]
     public async Task<ActionResult<UserResponseDto>> Register(
         RegisterUserRequestDto request,
         CancellationToken cancellationToken)
@@ -30,14 +31,14 @@ public class AuthController : ControllerBase
         }
         catch (InvalidOperationException exception)
         {
-            return Conflict(new { message = exception.Message });
+            return Conflict(new ApiErrorResponseDto(exception.Message));
         }
     }
 
     [HttpPost("login")]
     [ProducesResponseType(typeof(LoginUserResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ApiErrorResponseDto), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LoginUserResponseDto>> Login(
         LoginUserRequestDto request,
         CancellationToken cancellationToken)
@@ -45,7 +46,7 @@ public class AuthController : ControllerBase
         var response = await authService.LoginAsync(request, cancellationToken);
         if (response is null)
         {
-            return Unauthorized(new { message = "Invalid email or password." });
+            return Unauthorized(new ApiErrorResponseDto("Invalid email or password."));
         }
 
         return Ok(response);

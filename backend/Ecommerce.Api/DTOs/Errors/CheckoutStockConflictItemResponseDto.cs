@@ -1,6 +1,6 @@
 using Ecommerce.Api.Models;
 
-namespace Ecommerce.Api.DTOs.Checkout;
+namespace Ecommerce.Api.DTOs.Errors;
 
 public sealed record CheckoutStockConflictItemResponseDto(
     Guid ProductId,

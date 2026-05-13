@@ -1,4 +1,4 @@
-namespace Ecommerce.Api.DTOs.Checkout;
+namespace Ecommerce.Api.DTOs.Errors;
 
 public sealed record CheckoutStockConflictResponseDto(
     string Message,
