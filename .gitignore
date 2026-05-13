@@ -79,3 +79,19 @@ Thumbs.db
 # IntelliJ / Rider
 .idea/
 *.sln.iml
+
+# =========================
+# Local automation metadata
+# =========================
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+.agents/
+.codex/
+.cursor/
+.continue/
+.windsurf/
+.aider*
+
+# GitHub repository metadata
+.github/
