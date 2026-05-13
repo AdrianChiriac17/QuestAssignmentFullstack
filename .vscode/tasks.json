@@ -21,7 +21,7 @@
         {
             "label": "start frontend",
             "type": "shell",
-            "command": "npm run start -- --host localhost --port 4200",
+            "command": "npm run start",
             "options": {
                 "cwd": "${workspaceFolder}/frontend"
             },

@@ -24,11 +24,16 @@
             }
         },
         {
-            "name": "Frontend: Angular",
+            "name": "Frontend: Ecommerce.Client",
             "type": "node-terminal",
             "request": "launch",
             "cwd": "${workspaceFolder}/frontend",
-            "command": "npm run start -- --host localhost --port 4200"
+            "command": "npm run start",
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "Local:\\s+(https?://\\S+)",
+                "uriFormat": "%s"
+            }
         }
     ],
     "compounds": [
@@ -36,7 +41,7 @@
             "name": "Full Stack: Backend + Frontend",
             "configurations": [
                 "Backend: Ecommerce.Api",
-                "Frontend: Angular"
+                "Frontend: Ecommerce.Client"
             ],
             "stopAll": true
         }
