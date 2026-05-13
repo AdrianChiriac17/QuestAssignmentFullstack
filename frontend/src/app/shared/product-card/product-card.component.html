@@ -1,0 +1,17 @@
+<article class="product-card">
+  <a class="image-link" [routerLink]="['/products', product().id]" [attr.aria-label]="'View ' + product().name">
+    <img class="product-image front-image" [src]="frontImageUrl()" [alt]="product().name" />
+    @if (backImageUrl()) {
+      <img class="product-image back-image" [src]="backImageUrl()" [alt]="product().name + ' back'" />
+    }
+  </a>
+
+  <div class="card-body">
+    <div>
+      <h2>{{ product().name }}</h2>
+      <p>{{ product().price | currency }}</p>
+    </div>
+
+    <a class="see-more-link" [routerLink]="['/products', product().id]">See More</a>
+  </div>
+</article>

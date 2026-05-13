@@ -1,9 +1,29 @@
-<section class="placeholder-page">
-  <div class="placeholder-panel">
-    <p class="eyebrow">Products</p>
-    <h1>products works!</h1>
-    <p class="body-copy">
-      The product catalog route is ready. It will connect to the backend catalog endpoint when that endpoint is opened.
+<section class="products-page">
+  <div class="products-header">
+    <p class="section-kicker">Product catalog</p>
+    <h1>Football shirts</h1>
+    <p>
+      Browse the available shirts, then sign in to inspect sizes and add a kit to your cart.
     </p>
   </div>
+
+  @if (isLoading()) {
+    <div class="state-panel">
+      <p>Loading shirts...</p>
+    </div>
+  } @else if (errorMessage(); as message) {
+    <div class="state-panel state-panel-error">
+      <p>{{ message }}</p>
+    </div>
+  } @else if (products().length === 0) {
+    <div class="state-panel">
+      <p>No shirts available yet.</p>
+    </div>
+  } @else {
+    <div class="product-grid">
+      @for (product of products(); track product.id) {
+        <app-product-card [product]="product" />
+      }
+    </div>
+  }
 </section>
