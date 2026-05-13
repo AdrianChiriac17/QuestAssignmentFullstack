@@ -3,6 +3,7 @@ using Ecommerce.Api.Extensions;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+const string frontendOrigin = "http://localhost:4200";
 
 // Add services to the container.
 
@@ -20,7 +21,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") //will replace later w/ angular FE
+        policy.WithOrigins(frontendOrigin)
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

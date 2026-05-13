@@ -1,0 +1,34 @@
+<div class="app-shell">
+  <header class="site-header">
+    <nav class="site-nav">
+      <a
+        routerLink="/"
+        class="brand-link"
+        aria-label="KitVault home"
+      >
+        KitVault
+      </a>
+
+      <div class="nav-actions">
+        <a class="nav-link" routerLink="/products" routerLinkActive="nav-link-active">Products</a>
+
+        @if (isLoggedIn()) {
+          <a class="nav-link" routerLink="/cart" routerLinkActive="nav-link-active">
+            Cart
+            @if (cartCount() > 0) {
+              <span class="cart-badge">{{ cartCount() }}</span>
+            }
+          </a>
+          <a class="nav-link" routerLink="/profile" routerLinkActive="nav-link-active">Profile</a>
+          <button class="nav-button" type="button" (click)="logout()">Logout</button>
+        } @else {
+          <a class="nav-link" routerLink="/login" routerLinkActive="nav-link-active">Login</a>
+        }
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <router-outlet />
+  </main>
+</div>

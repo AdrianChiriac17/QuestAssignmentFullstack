@@ -2,13 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C#: Ecommerce.Api",
+            "name": "Backend: Ecommerce.Api",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build backend",
             "program": "${workspaceFolder}/backend/Ecommerce.Api/bin/Debug/net10.0/Ecommerce.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/backend/Ecommerce.Api",
+            "console": "integratedTerminal",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -21,6 +22,23 @@
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             }
+        },
+        {
+            "name": "Frontend: Angular",
+            "type": "node-terminal",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/frontend",
+            "command": "npm run start -- --host localhost --port 4200"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Full Stack: Backend + Frontend",
+            "configurations": [
+                "Backend: Ecommerce.Api",
+                "Frontend: Angular"
+            ],
+            "stopAll": true
         }
     ]
 }

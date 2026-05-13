@@ -50,6 +50,11 @@ yarn-error.log*
 # Angular specific
 .angular/
 .nx/
+out-tsc/
+bazel-out/
+.sass-cache/
+.history/
+__screenshots__/
 
 # Build outputs
 dist/

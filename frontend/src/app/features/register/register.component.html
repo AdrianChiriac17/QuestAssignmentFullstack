@@ -1,0 +1,53 @@
+<section class="auth-page">
+  <div class="auth-panel">
+    <p class="auth-kicker">Create account</p>
+    <h1>Register</h1>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-row">
+        <label class="field">
+          <span>First name</span>
+          <input type="text" autocomplete="given-name" formControlName="firstName" />
+          @if (form.controls.firstName.touched && form.controls.firstName.invalid) {
+            <small>First name is required.</small>
+          }
+        </label>
+
+        <label class="field">
+          <span>Last name</span>
+          <input type="text" autocomplete="family-name" formControlName="lastName" />
+          @if (form.controls.lastName.touched && form.controls.lastName.invalid) {
+            <small>Last name is required.</small>
+          }
+        </label>
+      </div>
+
+      <label class="field">
+        <span>Email</span>
+        <input type="email" autocomplete="email" formControlName="email" />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <small>Enter a valid email address.</small>
+        }
+      </label>
+
+      <label class="field">
+        <span>Password</span>
+        <input type="password" autocomplete="new-password" formControlName="password" />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <small>Use 8-20 characters with uppercase, lowercase, and a number.</small>
+        }
+      </label>
+
+      @if (errorMessage(); as message) {
+        <p class="error-message">{{ message }}</p>
+      }
+
+      <div class="action-grid">
+        <button class="primary-button" type="submit" [disabled]="isSubmitting()">
+          {{ isSubmitting() ? 'Creating...' : 'Register' }}
+        </button>
+        <a class="secondary-button" routerLink="/login">Log in</a>
+      </div>
+    </form>
+  </div>
+</section>
