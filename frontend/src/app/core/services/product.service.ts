@@ -6,7 +6,7 @@ import { API_BASE_URL } from './api.config';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  
+
   private readonly http = inject(HttpClient);
   private readonly productsSignal = signal<ProductResponseDto[]>([]);
   private readonly isLoadingSignal = signal(false);
@@ -28,14 +28,17 @@ export class ProductService {
 
     return this.http.get<ProductsResponseDto>(`${API_BASE_URL}/api/products`).pipe(
       map((response) => response.products),
+
       tap((products) => {
         this.productsSignal.set(products);
         this.hasLoadedSignal.set(true);
       }),
+
       catchError((error: HttpErrorResponse) => {
         this.errorMessageSignal.set(this.getErrorMessage(error));
         return throwError(() => error);
       }),
+      
       finalize(() => {
         this.isLoadingSignal.set(false);
       })

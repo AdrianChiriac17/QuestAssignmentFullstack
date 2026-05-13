@@ -42,7 +42,9 @@ export class ProductDetailsComponent implements OnInit {
   });
 
   protected readonly maxQuantity = computed(() => this.selectedStock()?.stockQuantity ?? 0);
+
   protected readonly canAddToCart = computed(() => this.maxQuantity() > 0 && this.quantity() > 0);
+  
   protected readonly quantityOptions = computed(() =>
     Array.from({ length: this.maxQuantity() }, (_, index) => index + 1)
   );

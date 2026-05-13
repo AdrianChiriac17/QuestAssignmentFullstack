@@ -16,12 +16,15 @@ export class ProductCardComponent {
   private readonly productService = inject(ProductService);
 
   readonly product = input.required<ProductResponseDto>();
+
   protected readonly detailLink = computed(() =>
     this.authService.isLoggedIn() ? ['/products', this.product().id] : ['/login']
   );
+
   protected readonly frontImageUrl = computed(() =>
     this.productService.getImageUrl(this.product().frontImageUrl)
   );
+  
   protected readonly backImageUrl = computed(() =>
     this.productService.getImageUrl(this.product().backImageUrl)
   );
