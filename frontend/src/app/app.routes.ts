@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { CartComponent } from './features/cart/cart.component';
+import { CheckoutComponent } from './features/checkout/checkout.component';
 import { LandingComponent } from './features/landing/landing.component';
 import { LoginComponent } from './features/login/login.component';
 import { ProductDetailsComponent } from './features/product-details/product-details.component';
@@ -24,6 +25,12 @@ export const routes: Routes = [
     component: CartComponent,
     canActivate: [authGuard],
     title: 'Cart | KitVault'
+  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+    canActivate: [authGuard],
+    title: 'Checkout | KitVault'
   },
   {
     path: 'profile',

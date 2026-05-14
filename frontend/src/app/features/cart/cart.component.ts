@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { CartItem } from '../../core/models/cart-item.model';
 import { CartService } from '../../core/services/cart.service';
 import { ProductService } from '../../core/services/product.service';
@@ -14,6 +15,7 @@ import { CartSummaryComponent } from './cart-summary/cart-summary.component';
 export class CartComponent implements OnInit {
   private readonly cartService = inject(CartService);
   private readonly productService = inject(ProductService);
+  private readonly router = inject(Router);
 
   protected readonly items = this.cartService.items;
   protected readonly itemCount = this.cartService.itemCount;
@@ -34,7 +36,7 @@ export class CartComponent implements OnInit {
   }
 
   protected checkout(): void {
-    this.checkoutMessage.set('Checkout will be added in the next vertical slice.');
+    void this.router.navigateByUrl('/checkout');
   }
 
   protected updateQuantity(item: CartItem, quantity: number): void {

@@ -1,0 +1,107 @@
+<section class="checkout-page">
+  @if (order(); as placedOrder) {
+    <app-order-confirmation [order]="placedOrder" />
+  } @else {
+    <div class="checkout-header">
+      <p class="section-kicker">Checkout</p>
+      <h1>Billing details</h1>
+      <p>Confirm your order and enter the delivery details for this purchase.</p>
+    </div>
+
+    <div class="checkout-layout">
+      <form class="checkout-form" [formGroup]="form" (ngSubmit)="placeOrder()">
+        <label class="field">
+          <span>Recipient name</span>
+          <input type="text" autocomplete="name" formControlName="recipientName" />
+          @if (form.controls.recipientName.touched && form.controls.recipientName.invalid) {
+            <small>Recipient name is required.</small>
+          }
+        </label>
+
+        <label class="field">
+          <span>Address line</span>
+          <input type="text" autocomplete="street-address" formControlName="addressLine" />
+          @if (form.controls.addressLine.touched && form.controls.addressLine.invalid) {
+            <small>Address line is required.</small>
+          }
+        </label>
+
+        <div class="field-grid">
+          <label class="field">
+            <span>City</span>
+            <input type="text" autocomplete="address-level2" formControlName="city" />
+            @if (form.controls.city.touched && form.controls.city.invalid) {
+              <small>City is required.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Postal code</span>
+            <input type="text" autocomplete="postal-code" formControlName="postalCode" />
+            @if (form.controls.postalCode.touched && form.controls.postalCode.invalid) {
+              <small>Postal code is required.</small>
+            }
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Country</span>
+          <input type="text" autocomplete="country-name" formControlName="country" />
+          @if (form.controls.country.touched && form.controls.country.invalid) {
+            <small>Country is required.</small>
+          }
+        </label>
+
+        @if (errorMessage(); as message) {
+          <div class="error-panel">
+            <p>{{ message }}</p>
+            @if (stockConflicts().length > 0) {
+              <ul>
+                @for (conflict of stockConflicts(); track conflict.productId + '-' + conflict.size) {
+                  <li>
+                    {{ getConflictProductName(conflict) }} size {{ conflict.size }}:
+                    requested {{ conflict.requestedQuantity }},
+                    available {{ conflict.availableQuantity }}.
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        }
+
+        <div class="form-actions">
+          <a class="secondary-link" routerLink="/cart">Back to cart</a>
+          <button class="place-order-button" type="submit" [disabled]="isSubmitting() || items().length === 0">
+            {{ isSubmitting() ? 'Placing order...' : 'Place order' }}
+          </button>
+        </div>
+      </form>
+
+      <aside class="order-summary" aria-label="Order summary">
+        <p class="summary-kicker">Summary</p>
+        <h2>{{ itemCount() }} item{{ itemCount() === 1 ? '' : 's' }}</h2>
+
+        @if (items().length === 0) {
+          <p class="empty-summary">Your cart is empty.</p>
+        } @else {
+          <div class="summary-items">
+            @for (item of items(); track item.productId + '-' + item.selectedSize) {
+              <div class="summary-item">
+                <div>
+                  <strong>{{ item.productName }}</strong>
+                  <span>Size {{ item.selectedSize }} x {{ item.quantity }}</span>
+                </div>
+                <p>{{ item.unitPrice * item.quantity | currency }}</p>
+              </div>
+            }
+          </div>
+        }
+
+        <div class="summary-total">
+          <span>Total</span>
+          <strong>{{ totalPrice() | currency }}</strong>
+        </div>
+      </aside>
+    </div>
+  }
+</section>

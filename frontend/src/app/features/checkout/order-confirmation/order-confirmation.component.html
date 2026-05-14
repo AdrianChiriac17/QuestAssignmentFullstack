@@ -1,0 +1,19 @@
+<div class="confirmation-panel">
+  <p class="section-kicker">Order placed</p>
+  <h1>Thank you</h1>
+  <dl>
+    <div>
+      <dt>Order ID</dt>
+      <dd>{{ order().orderId }}</dd>
+    </div>
+    <div>
+      <dt>Total paid</dt>
+      <dd>{{ order().totalPrice | currency }}</dd>
+    </div>
+    <div>
+      <dt>Placed at</dt>
+      <dd>{{ order().createdAt | date: 'medium' }}</dd>
+    </div>
+  </dl>
+  <a class="primary-link" routerLink="/products">Continue shopping</a>
+</div>
