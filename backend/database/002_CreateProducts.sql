@@ -1,10 +1,10 @@
-IF DB_ID(N'EcommerceDb') IS NULL
+IF DB_ID(N'QuestECommerceDbChiriac') IS NULL
 BEGIN
-    CREATE DATABASE EcommerceDb;
+    CREATE DATABASE QuestECommerceDbChiriac;
 END;
 GO
 
-USE EcommerceDb;
+USE QuestECommerceDbChiriac;
 GO
 
 IF OBJECT_ID(N'dbo.Products', N'U') IS NULL
