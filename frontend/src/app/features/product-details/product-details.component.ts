@@ -86,11 +86,9 @@ export class ProductDetailsComponent implements OnInit {
       this.stockQuantity());
   });
 
+  protected readonly canDecreaseQuantity = computed(() => this.quantity() > this.minimumQuantity());
+  protected readonly canIncreaseQuantity = computed(() => this.quantity() < this.maxQuantity());
   protected readonly canAddToCart = computed(() => this.maxQuantity() > 0 && this.quantity() > 0);
-  
-  protected readonly quantityOptions = computed(() =>
-    Array.from({ length: this.maxQuantity() }, (_, index) => index + 1)
-  );
 
   ngOnInit(): void {
     this.productId.set(this.route.snapshot.paramMap.get('id'));
@@ -119,6 +117,22 @@ export class ProductDetailsComponent implements OnInit {
     this.quantity.set(Math.min(Math.max(parsedValue, 1), this.maxQuantity()));
   }
 
+  protected decreaseQuantity(): void {
+    if (!this.canDecreaseQuantity()) {
+      return;
+    }
+
+    this.quantity.update((quantity) => quantity - 1);
+  }
+
+  protected increaseQuantity(): void {
+    if (!this.canIncreaseQuantity()) {
+      return;
+    }
+
+    this.quantity.update((quantity) => quantity + 1);
+  }
+
   protected addToCart(): void {
     const product = this.product();
     if (product === undefined || !this.canAddToCart()) {
@@ -141,6 +155,10 @@ export class ProductDetailsComponent implements OnInit {
 
   protected getStockQuantity(size: ProductSize): number {
     return this.product()?.sizes.find((stock) => stock.size === size)?.stockQuantity ?? 0;
+  }
+
+  protected minimumQuantity(): number {
+    return this.maxQuantity() > 0 ? 1 : 0;
   }
 
   private initializeSelection(): void {
