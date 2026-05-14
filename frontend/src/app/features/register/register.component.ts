@@ -18,6 +18,7 @@ export class RegisterComponent {
 
   readonly errorMessage = signal<string | null>(null);
   readonly isSubmitting = signal(false);
+  readonly successMessage = signal<string | null>(null);
 
   readonly form = this.formBuilder.nonNullable.group({
     firstName: ['', [Validators.required, Validators.maxLength(100)]],
@@ -36,6 +37,7 @@ export class RegisterComponent {
 
   submit(): void {
     this.errorMessage.set(null);
+    this.successMessage.set(null);
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -45,7 +47,10 @@ export class RegisterComponent {
     this.isSubmitting.set(true);
     this.authService.register(this.form.getRawValue()).subscribe({
       next: () => {
-        void this.router.navigateByUrl('/login');
+        this.successMessage.set('Register successful.');
+        setTimeout(() => {
+          void this.router.navigateByUrl('/login');
+        }, 500);
       },
       error: (error: HttpErrorResponse) => {
         this.errorMessage.set(this.getErrorMessage(error));

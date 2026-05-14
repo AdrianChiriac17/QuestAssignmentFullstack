@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from './core/services/auth.service';
 import { CartService } from './core/services/cart.service';
@@ -15,6 +15,10 @@ export class App {
   private readonly router = inject(Router);
 
   protected readonly isLoggedIn = this.authService.isLoggedIn;
+  protected readonly profileLabel = computed(() => {
+    const firstName = this.authService.user()?.firstName;
+    return firstName ? `${firstName}'s profile` : 'My profile';
+  });
   protected readonly cartCount = this.cartService.itemCount;
 
   protected logout(): void {

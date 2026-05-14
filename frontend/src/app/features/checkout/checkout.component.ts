@@ -71,6 +71,11 @@ export class CheckoutComponent implements OnInit {
       next: (response) => {
         this.order.set(response);
         this.cartService.clear();
+        this.productService.refreshProducts().subscribe({
+          error: () => {
+            // The order is already placed; the catalog can recover on the next load.
+          }
+        });
         this.isSubmitting.set(false);
       },
       error: (error: HttpErrorResponse) => {
@@ -82,6 +87,7 @@ export class CheckoutComponent implements OnInit {
 
   protected getConflictProductName(conflict: CheckoutStockConflictItemResponseDto): string {
     return this.items().find((item) => item.productId === conflict.productId)?.productName
+      ?? this.productService.getProductById(conflict.productId)?.name
       ?? 'Selected product';
   }
 
@@ -105,8 +111,19 @@ export class CheckoutComponent implements OnInit {
   private handleCheckoutError(error: HttpErrorResponse): void {
     if (error.status === 409) {
       const conflictResponse = error.error as CheckoutStockConflictResponseDto;
-      this.stockConflicts.set(conflictResponse.errors ?? []);
-      this.errorMessage.set(conflictResponse.message ?? 'Some items are no longer available.');
+      const conflicts = conflictResponse.errors ?? [];
+      this.stockConflicts.set(conflicts);
+      this.cartService.applyStockAdjustments(conflicts);
+      this.productService.refreshProducts().subscribe({
+        error: () => {
+          // The stock-conflict response still lets the cart recover if refresh fails.
+        }
+      });
+      this.errorMessage.set(
+        conflicts.length > 0
+          ? 'Some cart quantities were updated because stock changed.'
+          : conflictResponse.message ?? 'Some items are no longer available.'
+      );
       return;
     }
 

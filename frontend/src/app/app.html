@@ -19,7 +19,9 @@
               <span class="cart-badge">{{ cartCount() }}</span>
             }
           </a>
-          <a class="nav-link" routerLink="/profile" routerLinkActive="nav-link-active">Profile</a>
+          <a class="nav-link" routerLink="/profile" routerLinkActive="nav-link-active">
+            {{ profileLabel() }}
+          </a>
           <button class="nav-button nav-button-danger" type="button" (click)="logout()">Logout</button>
         } @else {
           <a class="nav-link" routerLink="/login" routerLinkActive="nav-link-active">Login</a>

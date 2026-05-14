@@ -42,11 +42,15 @@
         <p class="error-message">{{ message }}</p>
       }
 
+      @if (successMessage(); as message) {
+        <p class="success-message">{{ message }}</p>
+      }
+
       <div class="action-grid">
         <button class="primary-button" type="submit" [disabled]="isSubmitting()">
           {{ isSubmitting() ? 'Creating...' : 'Register' }}
         </button>
-        <a class="secondary-button" routerLink="/login">Log in</a>
+        <a class="secondary-button" routerLink="/login">Back to login</a>
       </div>
     </form>
   </div>

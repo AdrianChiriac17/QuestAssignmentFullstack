@@ -18,8 +18,8 @@ export class ProductService {
   readonly errorMessage = this.errorMessageSignal.asReadonly();
   readonly hasLoaded = this.hasLoadedSignal.asReadonly();
 
-  loadProducts(): Observable<ProductResponseDto[]> {
-    if (this.hasLoadedSignal()) {
+  loadProducts(forceRefresh = false): Observable<ProductResponseDto[]> {
+    if (this.hasLoadedSignal() && !forceRefresh) {
       return of(this.productsSignal());
     }
 
@@ -43,6 +43,10 @@ export class ProductService {
         this.isLoadingSignal.set(false);
       })
     );
+  }
+
+  refreshProducts(): Observable<ProductResponseDto[]> {
+    return this.loadProducts(true);
   }
 
   getProductById(id: string): ProductResponseDto | undefined {

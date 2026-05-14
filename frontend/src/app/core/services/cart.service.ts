@@ -3,6 +3,12 @@ import { AddCartItemResult, CartItem } from '../models/cart-item.model';
 
 export const CART_STORAGE_KEY = 'kitvault.cart';
 
+export interface CartStockAdjustment {
+  productId: string;
+  size: string;
+  availableQuantity: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private readonly itemsSignal = signal<CartItem[]>(this.readItems());
@@ -106,6 +112,36 @@ export class CartService {
   removeItem(productId: string, selectedSize: string): void {
     this.itemsSignal.update((items) =>
       items.filter((item) => item.productId !== productId || item.selectedSize !== selectedSize)
+    );
+  }
+
+  applyStockAdjustments(adjustments: readonly CartStockAdjustment[]): void {
+    if (adjustments.length === 0) {
+      return;
+    }
+
+    this.itemsSignal.update((items) =>
+      items.flatMap((item) => {
+        const adjustment = adjustments.find(
+          (candidate) =>
+            candidate.productId === item.productId &&
+            candidate.size === item.selectedSize);
+
+        if (adjustment === undefined) {
+          return [item];
+        }
+
+        if (adjustment.availableQuantity <= 0) {
+          return [];
+        }
+
+        return [
+          {
+            ...item,
+            quantity: Math.min(item.quantity, adjustment.availableQuantity)
+          }
+        ];
+      })
     );
   }
 
