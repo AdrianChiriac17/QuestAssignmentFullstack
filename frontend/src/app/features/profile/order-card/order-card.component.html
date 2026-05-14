@@ -1,0 +1,69 @@
+<article class="order-card">
+  <div class="order-card-header">
+    <div>
+      <p class="order-id">Order #{{ getShortOrderId() }}</p>
+      <p class="order-date">{{ order().createdAt | date: 'medium' }}</p>
+    </div>
+
+    <div class="order-actions">
+      <strong>{{ order().totalPrice | currency }}</strong>
+      <button type="button" (click)="toggleDetails()">
+        {{ isExpanded() ? 'See less' : 'See more' }}
+      </button>
+    </div>
+  </div>
+
+  @if (isExpanded()) {
+    <div class="order-details">
+      @if (isLoading()) {
+        <p class="details-state">Loading order details...</p>
+      } @else if (errorMessage(); as message) {
+        <div class="details-error">
+          <p>{{ message }}</p>
+          <button type="button" (click)="retryDetails()">Try again</button>
+        </div>
+      } @else if (orderDetails(); as details) {
+        <div class="details-grid">
+          <section class="items-panel" aria-label="Order items">
+            <h3>Items</h3>
+            <div class="items-list">
+              @for (item of details.items; track item.productId + '-' + item.size) {
+                <app-order-item-row [item]="item" />
+              }
+            </div>
+          </section>
+
+          <section class="shipping-panel" aria-label="Shipping details">
+            <h3>Shipping</h3>
+            <dl>
+              <div>
+                <dt>Recipient</dt>
+                <dd>{{ details.recipientName }}</dd>
+              </div>
+              <div>
+                <dt>Address</dt>
+                <dd>{{ details.addressLine }}</dd>
+              </div>
+              <div>
+                <dt>City</dt>
+                <dd>{{ details.city }}</dd>
+              </div>
+              <div>
+                <dt>Postal code</dt>
+                <dd>{{ details.postalCode }}</dd>
+              </div>
+              <div>
+                <dt>Country</dt>
+                <dd>{{ details.country }}</dd>
+              </div>
+              <div>
+                <dt>Full order ID</dt>
+                <dd>{{ details.id }}</dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+      }
+    </div>
+  }
+</article>

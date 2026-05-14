@@ -1,0 +1,56 @@
+.order-item-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 1rem;
+  align-items: center;
+  border: 1px solid rgb(229 229 229);
+  border-radius: 0.5rem;
+  background: rgb(250 250 249);
+  padding: 1rem;
+}
+
+.item-details,
+.quantity-details,
+.line-total {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.quantity-details,
+.line-total {
+  text-align: right;
+}
+
+h3,
+p {
+  margin: 0;
+}
+
+h3 {
+  color: #171717;
+  font-size: 1rem;
+}
+
+p,
+span {
+  color: #525252;
+  font-size: 0.9rem;
+}
+
+strong {
+  color: #171717;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .order-item-row {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .quantity-details,
+  .line-total {
+    text-align: left;
+  }
+}

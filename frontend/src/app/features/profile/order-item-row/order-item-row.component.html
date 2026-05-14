@@ -1,0 +1,17 @@
+<article class="order-item-row">
+  <div class="item-details">
+    <h3>{{ item().productName }}</h3>
+    <p>Size {{ item().size }}</p>
+    <p>{{ item().unitPrice | currency }} each</p>
+  </div>
+
+  <div class="quantity-details">
+    <span>Quantity</span>
+    <strong>{{ item().quantity }}</strong>
+  </div>
+
+  <div class="line-total">
+    <span>Line total</span>
+    <strong>{{ item().lineTotal | currency }}</strong>
+  </div>
+</article>
