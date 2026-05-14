@@ -29,6 +29,7 @@
         <h1>{{ selectedProduct.name }}</h1>
         <p class="price">{{ selectedProduct.price | currency }}</p>
         <p class="description">{{ selectedProduct.description }}</p>
+        <p class="cart-note">{{ cartSummary() }}</p>
 
         <div class="stock-list" aria-label="Size stock">
           @for (size of productSizes; track size) {

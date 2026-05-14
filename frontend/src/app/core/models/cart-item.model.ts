@@ -6,3 +6,8 @@ export interface CartItem {
   quantity: number;
   imageUrl?: string;
 }
+
+export interface AddCartItemResult {
+  addedQuantity: number;
+  remainingQuantity: number;
+}

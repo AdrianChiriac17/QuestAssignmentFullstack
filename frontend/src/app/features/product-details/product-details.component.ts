@@ -3,6 +3,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PRODUCT_SIZES, ProductSize } from '../../core/models/product.models';
+import { CartService } from '../../core/services/cart.service';
 import { ProductService } from '../../core/services/product.service';
 
 @Component({
@@ -14,6 +15,7 @@ import { ProductService } from '../../core/services/product.service';
 export class ProductDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly cartService = inject(CartService);
   private readonly productService = inject(ProductService);
 
   protected readonly productId = signal<string | null>(null);
@@ -41,7 +43,48 @@ export class ProductDetailsComponent implements OnInit {
     return this.product()?.sizes.find((stock) => stock.size === this.selectedSize());
   });
 
-  protected readonly maxQuantity = computed(() => this.selectedStock()?.stockQuantity ?? 0);
+  protected readonly stockQuantity = computed(() => this.selectedStock()?.stockQuantity ?? 0);
+  
+  protected readonly quantityInCart = computed(() => {
+    const product = this.product();
+    if (product === undefined) {
+      return 0;
+    }
+
+    return this.cartService.getQuantity(product.id, this.selectedSize());
+  });
+  
+  protected readonly cartSummary = computed(() => {
+    const product = this.product();
+    if (product === undefined) {
+      return 'You do not have this shirt in your cart yet.';
+    }
+
+    const selectedCartQuantities = this.productSizes
+      .map((size) => ({
+        size,
+        quantity: this.cartService.getQuantity(product.id, size)
+      }))
+      .filter((item) => item.quantity > 0)
+      .map((item) => `${item.quantity} ${item.size}`);
+
+    if (selectedCartQuantities.length === 0) {
+      return 'You do not have this shirt in your cart yet.';
+    }
+
+    return `You already have ${selectedCartQuantities.join(', ')} in your cart.`;
+  });
+  protected readonly maxQuantity = computed(() => {
+    const product = this.product();
+    if (product === undefined) {
+      return 0;
+    }
+
+    return this.cartService.getRemainingQuantity(
+      product.id,
+      this.selectedSize(),
+      this.stockQuantity());
+  });
 
   protected readonly canAddToCart = computed(() => this.maxQuantity() > 0 && this.quantity() > 0);
   
@@ -77,9 +120,21 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   protected addToCart(): void {
-    if (!this.canAddToCart()) {
+    const product = this.product();
+    if (product === undefined || !this.canAddToCart()) {
       return;
     }
+
+    this.cartService.addItem(
+      {
+        productId: product.id,
+        productName: product.name,
+        selectedSize: this.selectedSize(),
+        unitPrice: product.price,
+        quantity: this.quantity(),
+        imageUrl: product.frontImageUrl
+      },
+      this.stockQuantity());
 
     void this.router.navigateByUrl('/products');
   }
@@ -97,6 +152,7 @@ export class ProductDetailsComponent implements OnInit {
     const firstAvailableSize = product.sizes.find((stock) => stock.stockQuantity > 0);
     const fallbackSize = product.sizes[0]?.size ?? 'M';
     this.selectedSize.set(firstAvailableSize?.size ?? fallbackSize);
-    this.quantity.set((firstAvailableSize?.stockQuantity ?? 0) > 0 ? 1 : 0);
+    const remainingQuantity = this.maxQuantity();
+    this.quantity.set(remainingQuantity > 0 ? 1 : 0);
   }
 }

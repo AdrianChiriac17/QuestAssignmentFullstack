@@ -83,6 +83,15 @@ h1 {
   line-height: 1.7;
 }
 
+.cart-note {
+  margin: 1rem 0 0;
+  border-radius: 0.375rem;
+  background: #ecfdf5;
+  padding: 0.75rem;
+  color: #065f46;
+  font-weight: 800;
+}
+
 .stock-list {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));

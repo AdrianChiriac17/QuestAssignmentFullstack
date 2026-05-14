@@ -1,5 +1,5 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
-import { CartItem } from '../models/cart-item.model';
+import { AddCartItemResult, CartItem } from '../models/cart-item.model';
 
 export const CART_STORAGE_KEY = 'kitvault.cart';
 
@@ -21,7 +21,28 @@ export class CartService {
     });
   }
 
-  addItem(item: CartItem): void {
+  addItem(item: CartItem, maxStockQuantity: number): AddCartItemResult {
+    if (item.quantity <= 0 || maxStockQuantity <= 0) {
+      return {
+        addedQuantity: 0,
+        remainingQuantity: this.getRemainingQuantity(
+          item.productId,
+          item.selectedSize,
+          maxStockQuantity)
+      };
+    }
+
+    const existingQuantity = this.getQuantity(item.productId, item.selectedSize);
+    const remainingQuantity = Math.max(maxStockQuantity - existingQuantity, 0);
+    const addedQuantity = Math.min(item.quantity, remainingQuantity);
+
+    if (addedQuantity === 0) {
+      return {
+        addedQuantity,
+        remainingQuantity
+      };
+    }
+
     this.itemsSignal.update((items) => {
       const existingItem = items.find(
         (candidate) =>
@@ -30,15 +51,34 @@ export class CartService {
       );
 
       if (existingItem === undefined) {
-        return [...items, item];
+        return [...items, { ...item, quantity: addedQuantity }];
       }
 
       return items.map((candidate) =>
         candidate === existingItem
-          ? { ...candidate, quantity: candidate.quantity + item.quantity }
+          ? { ...candidate, quantity: candidate.quantity + addedQuantity }
           : candidate
       );
     });
+
+    return {
+      addedQuantity,
+      remainingQuantity: remainingQuantity - addedQuantity
+    };
+  }
+
+  getQuantity(productId: string, selectedSize: string): number {
+    return this.itemsSignal()
+      .filter((item) => item.productId === productId && item.selectedSize === selectedSize)
+      .reduce((quantity, item) => quantity + item.quantity, 0);
+  }
+
+  getRemainingQuantity(
+    productId: string,
+    selectedSize: string,
+    maxStockQuantity: number
+  ): number {
+    return Math.max(maxStockQuantity - this.getQuantity(productId, selectedSize), 0);
   }
 
   clear(): void {
