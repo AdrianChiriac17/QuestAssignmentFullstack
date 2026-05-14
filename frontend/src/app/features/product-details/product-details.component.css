@@ -199,6 +199,16 @@ h1 {
   outline: none;
 }
 
+.quantity-stepper input::-webkit-outer-spin-button,
+.quantity-stepper input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.quantity-stepper input[type="number"] {
+  appearance: textfield;
+}
+
 .quantity-stepper-disabled input {
   background: rgb(245 245 245);
   color: #737373;

@@ -81,6 +81,34 @@ export class CartService {
     return Math.max(maxStockQuantity - this.getQuantity(productId, selectedSize), 0);
   }
 
+  updateQuantity(
+    productId: string,
+    selectedSize: string,
+    quantity: number,
+    maxStockQuantity: number
+  ): void {
+    const safeQuantity = Math.min(Math.max(quantity, 0), maxStockQuantity);
+
+    if (safeQuantity === 0) {
+      this.removeItem(productId, selectedSize);
+      return;
+    }
+
+    this.itemsSignal.update((items) =>
+      items.map((item) =>
+        item.productId === productId && item.selectedSize === selectedSize
+          ? { ...item, quantity: safeQuantity }
+          : item
+      )
+    );
+  }
+
+  removeItem(productId: string, selectedSize: string): void {
+    this.itemsSignal.update((items) =>
+      items.filter((item) => item.productId !== productId || item.selectedSize !== selectedSize)
+    );
+  }
+
   clear(): void {
     this.itemsSignal.set([]);
     localStorage.removeItem(CART_STORAGE_KEY);

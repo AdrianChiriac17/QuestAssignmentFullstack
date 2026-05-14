@@ -49,7 +49,12 @@ h1 {
 }
 
 .empty-state,
-.items-placeholder {
+.cart-items-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.empty-state {
   min-height: 14rem;
   display: grid;
   align-content: center;
@@ -60,15 +65,13 @@ h1 {
   padding: 1.5rem;
 }
 
-.empty-state h2,
-.items-placeholder h2 {
+.empty-state h2 {
   margin: 0;
   color: #171717;
   font-size: 1.35rem;
 }
 
-.empty-state p,
-.items-placeholder p {
+.empty-state p {
   margin: 0;
   color: #525252;
   line-height: 1.6;

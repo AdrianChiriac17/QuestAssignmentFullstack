@@ -1,0 +1,34 @@
+<article class="cart-item-row">
+  <img class="item-image" [src]="imageUrl()" [alt]="item().productName" />
+
+  <div class="item-details">
+    <h2>{{ item().productName }}</h2>
+    <p>Size {{ item().selectedSize }}</p>
+    <p>{{ item().unitPrice | currency }} each</p>
+  </div>
+
+  <div class="quantity-area">
+    <span>Quantity</span>
+    <div class="quantity-stepper">
+      <button type="button" (click)="decreaseQuantity()" [disabled]="!canDecreaseQuantity()">
+        -
+      </button>
+      <input
+        type="number"
+        inputmode="numeric"
+        min="1"
+        [max]="maxQuantity()"
+        [value]="item().quantity"
+        (input)="updateQuantity($any($event.target).value)"
+      />
+      <button type="button" (click)="increaseQuantity()" [disabled]="!canIncreaseQuantity()">
+        +
+      </button>
+    </div>
+  </div>
+
+  <div class="item-actions">
+    <strong>{{ lineTotal() | currency }}</strong>
+    <button class="remove-button" type="button" (click)="remove.emit()">Remove</button>
+  </div>
+</article>
