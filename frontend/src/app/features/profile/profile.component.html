@@ -1,9 +1,45 @@
-<section class="placeholder-page">
-  <div class="placeholder-panel">
-    <p class="eyebrow">Profile</p>
-    <h1>profile works!</h1>
-    <p class="body-copy">
-      The authenticated profile route is in place and ready for account details.
-    </p>
-  </div>
+<section class="profile-page">
+  @if (user(); as currentUser) {
+    <app-profile-summary
+      [user]="currentUser"
+      [orderCount]="orders().length"
+      [lifetimeSpend]="lifetimeSpend()"
+    />
+  }
+
+  <section class="orders-section" aria-label="Past orders">
+    <div class="orders-header">
+      <p class="section-kicker">Order history</p>
+      <h2>Past orders</h2>
+    </div>
+
+    @if (isLoading()) {
+      <div class="state-panel">
+        <p>Loading orders...</p>
+      </div>
+    } @else if (errorMessage(); as message) {
+      <div class="state-panel state-panel-error">
+        <p>{{ message }}</p>
+        <button type="button" (click)="loadOrders()">Try again</button>
+      </div>
+    } @else if (orders().length === 0) {
+      <div class="state-panel">
+        <h3>No orders yet</h3>
+        <p>Your completed purchases will appear here.</p>
+        <a routerLink="/products">Browse products</a>
+      </div>
+    } @else {
+      <div class="orders-list">
+        @for (order of orders(); track order.id) {
+          <article class="order-preview">
+            <div>
+              <p class="order-id">Order #{{ getShortOrderId(order) }}</p>
+              <p class="order-date">{{ order.createdAt | date: 'medium' }}</p>
+            </div>
+            <strong>{{ order.totalPrice | currency }}</strong>
+          </article>
+        }
+      </div>
+    }
+  </section>
 </section>
