@@ -5,17 +5,11 @@
   padding: 2rem 0 4rem;
 }
 
-.back-link,
-.state-panel a {
+.back-link {
   display: inline-flex;
-  align-items: center;
-  border-radius: 0.375rem;
+  margin-bottom: 1rem;
   color: #065f46;
   font-weight: 800;
-}
-
-.back-link {
-  margin-bottom: 1rem;
 }
 
 .back-link:hover,
@@ -162,12 +156,6 @@ h1 {
   box-shadow: 0 0 0 3px rgb(16 185 129 / 0.16);
 }
 
-.field select:disabled {
-  background: rgb(245 245 245);
-  color: #737373;
-  cursor: not-allowed;
-}
-
 .quantity-stepper {
   display: grid;
   grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
@@ -211,11 +199,8 @@ h1 {
   outline: none;
 }
 
-.quantity-stepper-disabled {
-  background: rgb(245 245 245);
-}
-
 .quantity-stepper-disabled input {
+  background: rgb(245 245 245);
   color: #737373;
   cursor: not-allowed;
 }
@@ -239,6 +224,43 @@ h1 {
   cursor: not-allowed;
 }
 
+.cart-feedback {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  border: 1px solid rgb(187 247 208);
+  border-radius: 0.375rem;
+  background: #ecfdf5;
+  padding: 0.75rem;
+}
+
+.cart-feedback p {
+  margin: 0;
+  color: #065f46;
+  font-weight: 800;
+}
+
+.cart-feedback a,
+.state-panel a {
+  color: #047857;
+  font-weight: 900;
+}
+
+.cart-feedback button {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background: transparent;
+  color: #065f46;
+  font-weight: 900;
+}
+
+.cart-feedback button:hover {
+  background: rgb(209 250 229);
+}
+
 .state-panel {
   border: 1px solid rgb(229 229 229 / 0.9);
   border-radius: 0.5rem;
@@ -251,11 +273,6 @@ h1 {
   margin: 0 0 1rem;
   color: #525252;
   font-weight: 700;
-}
-
-.state-panel-error {
-  border-color: rgb(254 202 202);
-  background: rgb(254 242 242);
 }
 
 .state-panel-error p {

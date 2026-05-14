@@ -77,6 +77,16 @@
         <button class="primary-button" type="button" [disabled]="!canAddToCart()" (click)="addToCart()">
           Add to cart
         </button>
+
+        @if (cartMessage(); as message) {
+          <div class="cart-feedback" role="status">
+            <p>{{ message }}</p>
+            <a routerLink="/cart">View cart</a>
+            <button type="button" aria-label="Dismiss cart message" (click)="dismissCartMessage()">
+              x
+            </button>
+          </div>
+        }
       </div>
     </div>
   }

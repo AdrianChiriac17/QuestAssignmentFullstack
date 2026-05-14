@@ -1,7 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PRODUCT_SIZES, ProductSize } from '../../core/models/product.models';
 import { CartService } from '../../core/services/cart.service';
 import { ProductService } from '../../core/services/product.service';
@@ -12,15 +12,16 @@ import { ProductService } from '../../core/services/product.service';
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   private readonly cartService = inject(CartService);
   private readonly productService = inject(ProductService);
+  private cartMessageTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   protected readonly productId = signal<string | null>(null);
   protected readonly selectedSize = signal<ProductSize>('M');
   protected readonly quantity = signal(1);
+  protected readonly cartMessage = signal<string | null>(null);
   protected readonly productSizes = PRODUCT_SIZES;
   protected readonly isLoading = this.productService.isLoading;
   protected readonly errorMessage = this.productService.errorMessage;
@@ -103,6 +104,10 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.clearCartMessageTimeout();
+  }
+
   protected selectSize(size: ProductSize): void {
     this.selectedSize.set(size);
     this.quantity.set(this.maxQuantity() > 0 ? 1 : 0);
@@ -139,7 +144,7 @@ export class ProductDetailsComponent implements OnInit {
       return;
     }
 
-    this.cartService.addItem(
+    const result = this.cartService.addItem(
       {
         productId: product.id,
         productName: product.name,
@@ -150,7 +155,13 @@ export class ProductDetailsComponent implements OnInit {
       },
       this.stockQuantity());
 
-    void this.router.navigateByUrl('/products');
+    if (result.addedQuantity === 0) {
+      this.showCartMessage(`All available ${this.selectedSize()} shirts are already in your cart.`);
+      return;
+    }
+
+    this.quantity.set(this.maxQuantity() > 0 ? 1 : 0);
+    this.showCartMessage(`Added ${result.addedQuantity} ${this.selectedSize()} to your cart.`);
   }
 
   protected getStockQuantity(size: ProductSize): number {
@@ -172,5 +183,28 @@ export class ProductDetailsComponent implements OnInit {
     this.selectedSize.set(firstAvailableSize?.size ?? fallbackSize);
     const remainingQuantity = this.maxQuantity();
     this.quantity.set(remainingQuantity > 0 ? 1 : 0);
+  }
+
+  protected dismissCartMessage(): void {
+    this.cartMessage.set(null);
+    this.clearCartMessageTimeout();
+  }
+
+  private showCartMessage(message: string): void {
+    this.cartMessage.set(message);
+    this.clearCartMessageTimeout();
+    this.cartMessageTimeoutId = setTimeout(() => {
+      this.cartMessage.set(null);
+      this.cartMessageTimeoutId = null;
+    }, 5000);
+  }
+
+  private clearCartMessageTimeout(): void {
+    if (this.cartMessageTimeoutId === null) {
+      return;
+    }
+
+    clearTimeout(this.cartMessageTimeoutId);
+    this.cartMessageTimeoutId = null;
   }
 }

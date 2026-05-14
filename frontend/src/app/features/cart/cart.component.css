@@ -1,38 +1,111 @@
-.placeholder-page {
+.cart-page {
   width: min(100% - 2rem, 72rem);
   margin: 0 auto;
   min-height: calc(100vh - 4.25rem);
-  display: grid;
-  place-items: center;
-  padding: 3rem 0;
+  padding: 3rem 0 4rem;
 }
 
-.placeholder-panel {
-  width: min(100%, 38rem);
-  border: 1px solid #e5e5e5;
-  border-radius: 0.5rem;
-  background: white;
-  padding: 2rem;
-  box-shadow: 0 24px 70px rgb(38 38 38 / 0.1);
+.cart-header {
+  max-width: 42rem;
+  margin-bottom: 2rem;
 }
 
-.eyebrow {
+.section-kicker {
   margin: 0;
   color: #065f46;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 h1 {
-  margin: 0.75rem 0 0;
-  font-size: 2.25rem;
-  line-height: 1.15;
+  margin: 0.5rem 0 0;
+  color: #171717;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 1.05;
 }
 
-.body-copy {
+.cart-header p:last-child {
   margin: 1rem 0 0;
   color: #525252;
+  font-size: 1.05rem;
   line-height: 1.7;
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.cart-items-panel {
+  border: 1px solid rgb(229 229 229 / 0.9);
+  border-radius: 0.5rem;
+  background: white;
+  padding: 1.5rem;
+  box-shadow: 0 18px 48px rgb(38 38 38 / 0.09);
+}
+
+.empty-state,
+.items-placeholder {
+  min-height: 14rem;
+  display: grid;
+  align-content: center;
+  gap: 0.5rem;
+  border: 1px dashed rgb(212 212 212);
+  border-radius: 0.5rem;
+  background: rgb(250 250 249);
+  padding: 1.5rem;
+}
+
+.empty-state h2,
+.items-placeholder h2 {
+  margin: 0;
+  color: #171717;
+  font-size: 1.35rem;
+}
+
+.empty-state p,
+.items-placeholder p {
+  margin: 0;
+  color: #525252;
+  line-height: 1.6;
+}
+
+.clear-button {
+  margin-top: 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgb(254 202 202);
+  background: rgb(254 242 242);
+  padding: 0.75rem 1rem;
+  color: #991b1b;
+  font-weight: 900;
+}
+
+.clear-button:hover {
+  background: rgb(254 226 226);
+}
+
+.clear-button:disabled {
+  border-color: rgb(229 229 229);
+  background: rgb(245 245 245);
+  color: #a3a3a3;
+  cursor: not-allowed;
+}
+
+.checkout-message {
+  margin: 1rem 0 0;
+  border-radius: 0.375rem;
+  background: #ecfdf5;
+  padding: 0.75rem 1rem;
+  color: #065f46;
+  font-weight: 800;
+}
+
+@media (max-width: 860px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,9 +1,38 @@
-<section class="placeholder-page">
-  <div class="placeholder-panel">
-    <p class="eyebrow">Cart</p>
-    <h1>cart works!</h1>
-    <p class="body-copy">
-      This route is protected and ready for the frontend-owned cart workflow.
-    </p>
+<section class="cart-page">
+  <div class="cart-header">
+    <p class="section-kicker">Your cart</p>
+    <h1>Match-day picks</h1>
+    <p>Review the shirts you have selected before moving to checkout.</p>
   </div>
+
+  <div class="cart-layout">
+    <section class="cart-items-panel" aria-label="Cart items">
+      @if (items().length === 0) {
+        <div class="empty-state">
+          <h2>Your cart is empty</h2>
+          <p>Add a shirt from the product details page and it will appear here.</p>
+        </div>
+      } @else {
+        <div class="items-placeholder">
+          <h2>{{ itemCount() }} {{ itemCount() === 1 ? 'item' : 'items' }} selected</h2>
+          <p>Cart item rows will be added here in the next slice.</p>
+        </div>
+      }
+
+      <button class="clear-button" type="button" [disabled]="items().length === 0" (click)="clearCart()">
+        Clear cart
+      </button>
+    </section>
+
+    <app-cart-summary
+      [itemCount]="itemCount()"
+      [totalPrice]="totalPrice()"
+      [canCheckout]="items().length > 0"
+      (checkout)="checkout()"
+    />
+  </div>
+
+  @if (checkoutMessage(); as message) {
+    <p class="checkout-message">{{ message }}</p>
+  }
 </section>

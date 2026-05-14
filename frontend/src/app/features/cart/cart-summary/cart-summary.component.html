@@ -1,0 +1,19 @@
+<aside class="summary-panel" aria-label="Cart summary">
+  <p class="summary-kicker">Summary</p>
+  <h2>Order total</h2>
+
+  <dl>
+    <div>
+      <dt>Items</dt>
+      <dd>{{ itemCount() }}</dd>
+    </div>
+    <div>
+      <dt>Total</dt>
+      <dd>{{ totalPrice() | currency }}</dd>
+    </div>
+  </dl>
+
+  <button class="checkout-button" type="button" [disabled]="!canCheckout()" (click)="checkoutClicked()">
+    Checkout
+  </button>
+</aside>

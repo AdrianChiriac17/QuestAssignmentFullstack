@@ -1,0 +1,68 @@
+.summary-panel {
+  border: 1px solid rgb(229 229 229 / 0.9);
+  border-radius: 0.5rem;
+  background: white;
+  padding: 1.5rem;
+  box-shadow: 0 18px 48px rgb(38 38 38 / 0.09);
+}
+
+.summary-kicker {
+  margin: 0;
+  color: #065f46;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 0.5rem 0 0;
+  color: #171717;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+dl {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1.5rem 0 0;
+}
+
+dl div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgb(229 229 229);
+  padding-bottom: 0.85rem;
+}
+
+dt {
+  color: #525252;
+  font-weight: 700;
+}
+
+dd {
+  margin: 0;
+  color: #171717;
+  font-weight: 900;
+}
+
+.checkout-button {
+  width: 100%;
+  margin-top: 1.5rem;
+  border-radius: 0.375rem;
+  background: #047857;
+  padding: 0.85rem 1rem;
+  color: white;
+  font-weight: 900;
+}
+
+.checkout-button:hover {
+  background: #065f46;
+}
+
+.checkout-button:disabled {
+  background: #a3a3a3;
+  cursor: not-allowed;
+}
