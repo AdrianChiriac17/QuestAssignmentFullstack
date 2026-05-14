@@ -4,7 +4,7 @@ namespace Ecommerce.Api.Repositories.Interfaces;
 
 public interface IOrderRepository
 {
-    Task CreateAsync(
+    Task CreateWithItemsAndDecreaseStockAsync(
         Order order,
         IReadOnlyList<OrderItem> orderItems,
         CancellationToken cancellationToken = default);
