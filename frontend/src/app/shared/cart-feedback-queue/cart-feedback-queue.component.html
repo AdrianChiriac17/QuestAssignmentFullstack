@@ -1,0 +1,13 @@
+@if (visibleMessages().length > 0) {
+  <div class="feedback-list" role="status" aria-live="polite">
+    @for (message of visibleMessages(); track message.id) {
+      <article class="cart-feedback">
+        <p>{{ message.text }}</p>
+        <a [routerLink]="actionLink()">{{ actionLabel() }}</a>
+        <button type="button" aria-label="Dismiss cart message" (click)="dismiss(message.id)">
+          x
+        </button>
+      </article>
+    }
+  </div>
+}
