@@ -1,5 +1,5 @@
 .details-page {
-  width: min(100% - 2rem, 72rem);
+  width: min(100% - 2rem, 90rem);
   margin: 0 auto;
   min-height: calc(100vh - 4.25rem);
   padding: 2rem 0 4rem;
@@ -20,15 +20,17 @@
 
 .details-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.95fr);
+  grid-template-columns: minmax(0, 1.55fr) minmax(24rem, 0.95fr);
   gap: 1.5rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .image-gallery {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: 1rem;
+  height: 100%;
 }
 
 .image-gallery img,
@@ -41,9 +43,10 @@
 
 .image-gallery img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  height: 100%;
   background: #ecece3;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
 }
 
 .details-panel {
@@ -262,6 +265,15 @@ h1 {
 @media (max-width: 900px) {
   .details-layout {
     grid-template-columns: 1fr;
+  }
+
+  .image-gallery {
+    height: auto;
+  }
+
+  .image-gallery img {
+    aspect-ratio: 4 / 5;
+    height: auto;
   }
 }
 
