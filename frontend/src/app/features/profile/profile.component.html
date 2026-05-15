@@ -31,13 +31,7 @@
     } @else {
       <div class="orders-list">
         @for (order of orders(); track order.id) {
-          <article class="order-preview">
-            <div>
-              <p class="order-id">Order #{{ getShortOrderId(order) }}</p>
-              <p class="order-date">{{ order.createdAt | date: 'medium' }}</p>
-            </div>
-            <strong>{{ order.totalPrice | currency }}</strong>
-          </article>
+          <app-order-card [order]="order" />
         }
       </div>
     }

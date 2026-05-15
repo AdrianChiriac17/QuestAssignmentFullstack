@@ -1,14 +1,14 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OrderSummaryResponseDto } from '../../core/models/order.models';
 import { AuthService } from '../../core/services/auth.service';
 import { OrderService } from '../../core/services/order.service';
+import { OrderCardComponent } from './order-card/order-card.component';
 import { ProfileSummaryComponent } from './profile-summary/profile-summary.component';
 
 @Component({
   selector: 'app-profile',
-  imports: [CurrencyPipe, DatePipe, ProfileSummaryComponent, RouterLink],
+  imports: [OrderCardComponent, ProfileSummaryComponent, RouterLink],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -45,7 +45,4 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  protected getShortOrderId(order: OrderSummaryResponseDto): string {
-    return `${order.id.slice(0, 8)}-${order.id.slice(-4)}`.toUpperCase();
-  }
 }
