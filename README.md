@@ -40,6 +40,12 @@ If you prefer not to restore the backup, run the combined database script instea
 backend/database/000_CreateFullDatabase.sql
 ```
 
+Then run the demo data script:
+
+```text
+backend/database/004_SeedDemoData.sql
+```
+
 The script creates:
 
 - `Users`
@@ -48,7 +54,7 @@ The script creates:
 - `Orders`
 - `OrderItems`
 
-When the backend starts in `Development`, it also inserts demo users and demo products if they are missing. Product images are committed under:
+Demo products are inserted by `004_SeedDemoData.sql`. Product images are committed under:
 
 ```text
 backend/Ecommerce.Api/wwwroot/images/products/
@@ -57,8 +63,8 @@ backend/Ecommerce.Api/wwwroot/images/products/
 Demo login accounts:
 
 ```text
-demo@questshirts.local / Password123!
-reviewer@questshirts.local / Password123!
+adrian@mail.com / Parola123!
+review@mail.com / Parola123!
 ```
 
 ## Run With VS Code
