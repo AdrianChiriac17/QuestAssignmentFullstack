@@ -1,8 +1,9 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, computed, inject, OnInit, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PRODUCT_SIZES, ProductSize } from '../../core/models/product.models';
+import { AuthService } from '../../core/services/auth.service';
 import { CartService } from '../../core/services/cart.service';
 import { ProductService } from '../../core/services/product.service';
 import { CartFeedbackQueueComponent } from '../../shared/cart-feedback-queue/cart-feedback-queue.component';
@@ -15,6 +16,8 @@ import { CartFeedbackQueueComponent } from '../../shared/cart-feedback-queue/car
 })
 export class ProductDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
   private readonly cartService = inject(CartService);
   private readonly productService = inject(ProductService);
   private readonly cartFeedbackQueue = viewChild.required(CartFeedbackQueueComponent);
@@ -137,6 +140,11 @@ export class ProductDetailsComponent implements OnInit {
   protected addToCart(): void {
     const product = this.product();
     if (product === undefined || !this.canAddToCart()) {
+      return;
+    }
+
+    if (!this.authService.isLoggedIn()) {
+      void this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
       return;
     }
 

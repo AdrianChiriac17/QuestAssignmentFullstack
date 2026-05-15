@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiErrorResponseDto } from '../../core/models/api-error-response.model';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -14,6 +14,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   readonly errorMessage = signal<string | null>(null);
@@ -35,7 +36,7 @@ export class LoginComponent {
     this.isSubmitting.set(true);
     this.authService.login(this.form.getRawValue()).subscribe({
       next: () => {
-        void this.router.navigateByUrl('/products');
+        void this.router.navigateByUrl(this.getReturnUrl());
       },
       error: (error: HttpErrorResponse) => {
         this.errorMessage.set(this.getErrorMessage(error));
@@ -47,5 +48,14 @@ export class LoginComponent {
   private getErrorMessage(error: HttpErrorResponse): string {
     const response = error.error as ApiErrorResponseDto | undefined;
     return response?.message ?? response?.detail ?? response?.title ?? 'Unable to log in.';
+  }
+
+  private getReturnUrl(): string {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    if (returnUrl !== null && returnUrl.startsWith('/') && !returnUrl.startsWith('//')) {
+      return returnUrl;
+    }
+
+    return '/products';
   }
 }

@@ -16,7 +16,6 @@ export const routes: Routes = [
   {
     path: 'products/:id',
     component: ProductDetailsComponent,
-    canActivate: [authGuard],
     title: 'Product Details | KitVault'
   },
   {
