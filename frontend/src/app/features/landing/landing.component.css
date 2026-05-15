@@ -1,7 +1,8 @@
 .hero {
   min-height: calc(100vh - 4.25rem);
   background:
-    linear-gradient(90deg, rgb(10 10 10 / 0.82), rgb(10 10 10 / 0.44), rgb(10 10 10 / 0.18)),
+    linear-gradient(90deg, rgb(17 17 17 / 0.88), rgb(17 17 17 / 0.52), rgb(17 17 17 / 0.12)),
+    linear-gradient(180deg, transparent 74%, var(--color-bg) 100%),
     url("/images/football-shirts-hero.png") center / cover;
 }
 
@@ -21,26 +22,35 @@
 
 .hero-kicker {
   margin: 0 0 1rem;
-  color: #a7f3d0;
+  display: inline-flex;
+  border: 2px solid white;
+  background: var(--color-accent);
+  padding: 0.3rem 0.5rem;
+  color: var(--color-ink);
   font-size: 0.85rem;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .hero h1 {
   margin: 0;
+  font-family: var(--font-display);
   font-size: clamp(3.5rem, 8vw, 7rem);
-  line-height: 0.94;
+  font-weight: 400;
+  line-height: 0.86;
   letter-spacing: 0;
+  text-transform: uppercase;
+  text-shadow: 0.08em 0.08em 0 rgb(201 255 47 / 0.35);
 }
 
 .hero-copy {
   max-width: 35rem;
   margin: 1.5rem 0 0;
-  color: #f5f5f4;
+  color: #f6f4ec;
   font-size: 1.15rem;
-  line-height: 1.8;
+  font-weight: 600;
+  line-height: 1.75;
 }
 
 .hero-actions {
@@ -56,35 +66,40 @@
   align-items: center;
   justify-content: center;
   border-radius: 0.375rem;
+  border: 2px solid white;
   padding: 0.75rem 1rem;
-  font-weight: 700;
+  font-weight: 900;
+  text-transform: uppercase;
   transition:
     background-color 150ms ease,
     color 150ms ease,
-    border-color 150ms ease;
+    border-color 150ms ease,
+    transform 150ms ease;
 }
 
 .primary-link {
-  background-color: rgb(16 185 129);
-  color: rgb(6 78 59);
+  background-color: var(--color-accent);
+  color: var(--color-ink);
 }
 
 .primary-link:hover {
-  background-color: rgb(52 211 153);
+  background-color: white;
+  transform: translateY(-2px);
 }
 
 .secondary-link {
-  border: 1px solid rgb(255 255 255 / 0.55);
+  background: rgb(17 17 17 / 0.2);
   color: white;
 }
 
 .secondary-link:hover {
-  background-color: rgb(255 255 255 / 0.12);
+  background-color: var(--color-alert);
+  transform: translateY(-2px);
 }
 
 .feature-band {
-  border-block: 1px solid #e5e5e5;
-  background: white;
+  border-block: 2px solid var(--color-border);
+  background: var(--color-surface);
 }
 
 .feature-grid {
@@ -97,21 +112,23 @@
 }
 
 .feature-item {
-  border-left: 3px solid #047857;
+  border-left: 4px solid var(--color-border);
   padding-left: 1rem;
 }
 
 .feature-title {
   margin: 0;
-  color: #065f46;
+  color: var(--color-ink);
   font-size: 0.95rem;
-  font-weight: 800;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .feature-item p:last-child {
   margin: 0.5rem 0 0;
-  color: #525252;
+  color: var(--color-muted);
   font-size: 0.95rem;
+  font-weight: 600;
   line-height: 1.65;
 }
 

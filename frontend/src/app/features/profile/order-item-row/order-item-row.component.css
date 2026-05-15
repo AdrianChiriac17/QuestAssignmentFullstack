@@ -3,9 +3,9 @@
   grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 1rem;
   align-items: center;
-  border: 1px solid rgb(229 229 229);
+  border: 2px solid var(--color-border-soft);
   border-radius: 0.5rem;
-  background: rgb(250 250 249);
+  background: var(--color-surface);
   padding: 1rem;
 }
 
@@ -27,18 +27,21 @@ p {
 }
 
 h3 {
-  color: #171717;
+  color: var(--color-ink);
   font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 p,
 span {
-  color: #525252;
+  color: var(--color-muted);
   font-size: 0.9rem;
+  font-weight: 700;
 }
 
 strong {
-  color: #171717;
+  color: var(--color-ink);
   font-size: 1rem;
   white-space: nowrap;
 }
