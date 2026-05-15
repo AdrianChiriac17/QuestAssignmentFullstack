@@ -27,6 +27,7 @@
             "name": "Frontend: Ecommerce.Client",
             "type": "node-terminal",
             "request": "launch",
+            "preLaunchTask": "install frontend dependencies",
             "cwd": "${workspaceFolder}/frontend",
             "command": "npm run start",
             "serverReadyAction": {

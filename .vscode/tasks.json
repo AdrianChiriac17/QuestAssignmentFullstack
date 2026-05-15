@@ -19,6 +19,15 @@
             "problemMatcher": []
         },
         {
+            "label": "install frontend dependencies",
+            "type": "shell",
+            "command": "npm install",
+            "options": {
+                "cwd": "${workspaceFolder}/frontend"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "start frontend",
             "type": "shell",
             "command": "npm run start",
