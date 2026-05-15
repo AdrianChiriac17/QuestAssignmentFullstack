@@ -12,6 +12,7 @@
 *.booproj
 *.jcnf
 *.*proj.user
+*.lscache
 
 # Build results
 [Dd]ebug/
