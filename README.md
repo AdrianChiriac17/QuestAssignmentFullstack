@@ -137,6 +137,12 @@ Added beyond the brief:
 
 ## Tests
 
+Backend tests can be run with:
+
+```bash
+dotnet test QuestAssignmentFullstack.slnx
+```
+
 Frontend tests can be run with:
 
 ```bash
@@ -144,7 +150,7 @@ cd frontend
 npm test
 ```
 
-The current frontend includes Angular spec files for app/auth flows. Backend unit tests will be documented here after the backend test project is added.
+The backend test project uses xUnit, Moq, and Shouldly. It focuses on service-layer business logic such as checkout totals, stock conflicts, auth behavior, and order mapping.
 
 ## Notes
 

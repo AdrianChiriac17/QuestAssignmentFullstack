@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/backend/">
+    <Project Path="backend/Ecommerce.Api.Tests/Ecommerce.Api.Tests.csproj" />
     <Project Path="backend/Ecommerce.Api/Ecommerce.Api.csproj" />
   </Folder>
 </Solution>
