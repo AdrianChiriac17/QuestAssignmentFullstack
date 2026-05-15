@@ -34,15 +34,10 @@ Recommended reviewer setup:
 QuestECommerceDbChiriac
 ```
 
-If you prefer not to restore the backup, run the combined database script instead:
+If you prefer not to restore the backup, run both SQL scripts in this order:
 
 ```text
 backend/database/000_CreateFullDatabase.sql
-```
-
-Then run the demo data script:
-
-```text
 backend/database/004_SeedDemoData.sql
 ```
 
@@ -69,7 +64,7 @@ review@mail.com / Parola123!
 
 ## Run With VS Code
 
-After restoring the `.bak` file or running `000_CreateFullDatabase.sql`, open the repository in VS Code.
+After restoring the `.bak` file or running both SQL scripts, open the repository in VS Code.
 
 Use the Run and Debug panel and start:
 
@@ -82,6 +77,8 @@ This launches:
 - Backend API: `https://localhost:7214`
 - Scalar API UI: `https://localhost:7214/scalar`
 - Angular frontend: `http://localhost:4200`
+
+The VS Code frontend launch runs `npm install` before `npm run start`, so reviewers do not need to install frontend packages manually when using this workflow.
 
 ## Manual Run
 
