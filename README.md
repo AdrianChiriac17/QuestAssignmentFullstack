@@ -17,15 +17,30 @@ The default development connection string uses LocalDB:
 Server=(localdb)\MSSQLLocalDB;Database=QuestECommerceDbChiriac;Trusted_Connection=True;TrustServerCertificate=True;
 ```
 
-## First Step: Create The Database
+## First Step: Restore Or Create The Database
 
-Before running the app, run the combined database script:
+The repository includes a populated SQL Server backup:
+
+```text
+backend/database/QuestECommerceDbChiriac.bak
+```
+
+Recommended reviewer setup:
+
+1. Restore `QuestECommerceDbChiriac.bak` in SQL Server Management Studio.
+2. Keep the restored database name as:
+
+```text
+QuestECommerceDbChiriac
+```
+
+If you prefer not to restore the backup, run the combined database script instead:
 
 ```text
 backend/database/000_CreateFullDatabase.sql
 ```
 
-This creates:
+The script creates:
 
 - `Users`
 - `Products`
@@ -33,7 +48,7 @@ This creates:
 - `Orders`
 - `OrderItems`
 
-The app seeds demo users and demo products automatically when the backend starts in `Development`. Product images are committed under:
+When the backend starts in `Development`, it also inserts demo users and demo products if they are missing. Product images are committed under:
 
 ```text
 backend/Ecommerce.Api/wwwroot/images/products/
@@ -48,7 +63,7 @@ reviewer@questshirts.local / Password123!
 
 ## Run With VS Code
 
-After running `000_CreateFullDatabase.sql`, open the repository in VS Code.
+After restoring the `.bak` file or running `000_CreateFullDatabase.sql`, open the repository in VS Code.
 
 Use the Run and Debug panel and start:
 
