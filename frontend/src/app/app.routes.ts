@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { guestGuard } from './core/guards/guest.guard';
 import { CartComponent } from './features/cart/cart.component';
 import { CheckoutComponent } from './features/checkout/checkout.component';
 import { LandingComponent } from './features/landing/landing.component';
@@ -18,8 +19,18 @@ export const routes: Routes = [
     canActivate: [authGuard],
     title: 'Product Details | KitVault'
   },
-  { path: 'login', component: LoginComponent, title: 'Login | KitVault' },
-  { path: 'register', component: RegisterComponent, title: 'Register | KitVault' },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [guestGuard],
+    title: 'Login | KitVault'
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [guestGuard],
+    title: 'Register | KitVault'
+  },
   {
     path: 'cart',
     component: CartComponent,

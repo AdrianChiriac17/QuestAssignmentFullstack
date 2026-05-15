@@ -8,7 +8,9 @@
       </p>
       <div class="hero-actions">
         <a class="primary-link" routerLink="/products">Browse shirts</a>
-        <a class="secondary-link" routerLink="/login">Sign in</a>
+        @if (!isLoggedIn()) {
+          <a class="secondary-link" routerLink="/login">Sign in</a>
+        }
       </div>
     </div>
   </div>
